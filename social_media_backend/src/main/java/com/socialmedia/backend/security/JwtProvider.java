@@ -1,5 +1,6 @@
 package com.socialmedia.backend.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -19,5 +20,15 @@ public class JwtProvider {
                 .claim("email", auth.getName()) // Thêm claim chứa email người dùng
                 .signWith(key) // Ký với khóa bí mật
                 .compact(); // Kết xuất JWT thành chuỗi
+    }
+
+    public String getEmailFromToken(String jwt) {
+        if (jwt.startsWith("Bearer ")) {
+            jwt = jwt.substring(7);
+        }
+
+        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
+
+        return claims.get("email", String.class);
     }
 }
