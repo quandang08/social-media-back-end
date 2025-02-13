@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
+@Table(name = "likes")  // Đổi thành "likes"
 @Data
 public class Like {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
