@@ -19,12 +19,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword(); // Trả về mật khẩu của user
+        return "";
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail(); // Dùng email làm username
+        return "";
     }
 
     @Override
@@ -47,7 +47,7 @@ public class CustomUserDetails implements UserDetails {
         return true; // Mặc định tài khoản luôn kích hoạt
     }
 
-    public boolean isLoginWithGoogle() {
-        return user.isLoginWithGoogle();
-    }
+//    public boolean isLoginWithGoogle() {
+//        return user.isLoginWithGoogle();
+//    }
 }
