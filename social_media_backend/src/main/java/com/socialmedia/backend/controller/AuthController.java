@@ -39,38 +39,35 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws UserException {
-        String email = user.getEmail();
-        String password = user.getPassword();
-        String fullName = user.getFullName();
-        String birthDate = user.getBirthDate();
+        System.out.println("Received Signup Request: " + user); // Debug đầu vào
 
+        String email = user.getEmail();
         if (email == null || email.isBlank()) {
             throw new UserException("Email cannot be empty");
         }
 
+        System.out.println("Checking if email exists: " + email);
         if (userRepository.findByEmail(email).isPresent()) {
             throw new UserException("Email is already in use by another user");
         }
 
-        // Mã hóa mật khẩu
-        String encodedPassword = passwordEncoder.encode(password);
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        System.out.println("Encoded Password: " + encodedPassword);
 
-        // Tạo user mới
         User createdUser = new User();
         createdUser.setEmail(email);
-        createdUser.setFullName(fullName);
+        createdUser.setFullName(user.getFullName());
         createdUser.setPassword(encodedPassword);
-        createdUser.setBirthDate(birthDate);
+        createdUser.setBirthDate(user.getBirthDate());
         createdUser.setVerification(new Verification());
 
-        // Lưu vào database
         User savedUser = userRepository.save(createdUser);
+        System.out.println("User saved: " + savedUser);
 
-        // Tạo JWT Token
         String token = jwtProvider.generateJwt(savedUser.getEmail());
-
         return new ResponseEntity<>(new AuthResponse(token, true), HttpStatus.CREATED);
     }
+
 
     @PostMapping("/signin")
     public ResponseEntity<AuthResponse> signin(@RequestBody User user) throws UserException {

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "likes")  // Đổi thành "likes"
+@Table(name = "likes")
 @Data
 public class Like {
     @Id
