@@ -61,4 +61,52 @@ public class User {
     )
     private List<User> following = new ArrayList<>();
 
+    // Getter & Setter cho Verification
+    public Verification getVerification() {
+        return verification;
+    }
+
+    public void setVerification(Verification verification) {
+        this.verification = verification;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) { // Sửa lại kiểu dữ liệu của tham số
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) { // Bổ sung setter cho password
+        this.password = password;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) { // Bổ sung setter cho fullName
+        this.fullName = fullName;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) { // Bổ sung setter cho birthDate
+        this.birthDate = birthDate;
+    }
+
+    public boolean isLoginWithGoogle() {
+        return loginWithGoogle;
+    }
+
+    public void setLoginWithGoogle(boolean loginWithGoogle) {
+        this.loginWithGoogle = loginWithGoogle;
+    }
 }
