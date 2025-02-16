@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomUserDetailsServiceImplementation implements UserDetailsService {
@@ -25,12 +24,13 @@ public class CustomUserDetailsServiceImplementation implements UserDetailsServic
         User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
 
-        if (user.isLoginWithGoogle()) {
+        if (user==null || user.isLoginWithGoogle()) {
             throw new UsernameNotFoundException("User registered with Google login, please use Google Sign-In");
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        return new CustomUserDetails(user);
+            //return new CustomUserDetails(user);
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 
 }
