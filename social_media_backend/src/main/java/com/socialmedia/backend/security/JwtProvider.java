@@ -15,14 +15,15 @@ public class JwtProvider {
 
     private static final SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(JwtConstant.SECRET_KEY));
 
-    public String generateJwt(Authentication auth) {
+    public String generateJwt(String email) {
         return Jwts.builder()
-                .setIssuedAt(new Date()) // Thời gian phát hành JWT
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
-                .claim("email", auth.getName()) // Thêm claim chứa email người dùng
+                .setIssuedAt(new Date())  // Thời gian phát hành JWT
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // Hết hạn sau 24h
+                .claim("email", email) // Thêm claim chứa email
                 .signWith(key) // Ký với khóa bí mật
-                .compact(); // Kết xuất JWT thành chuỗi
+                .compact(); // Xuất JWT thành chuỗi
     }
+
 
     public String getEmailFromToken(String jwt) {
         if (jwt.startsWith("Bearer ")) {

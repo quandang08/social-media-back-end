@@ -1,4 +1,5 @@
 package com.socialmedia.backend.security;
+
 import com.socialmedia.backend.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,7 +48,7 @@ public class CustomUserDetails implements UserDetails {
         return true; // Mặc định tài khoản luôn kích hoạt
     }
 
-//    public boolean isLoginWithGoogle() {
-//        return user.isLoginWithGoogle();
-//    }
+    public boolean isLoginWithGoogle() {
+        return user.isLoginWithGoogle();
+    }
 }
