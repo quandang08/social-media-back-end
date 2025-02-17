@@ -61,7 +61,13 @@ public class User {
     )
     private List<User> following = new ArrayList<>();
 
-    // Getter & Setter cho Verification
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Verification getVerification() {
         return verification;
     }
@@ -74,7 +80,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) { // Sửa lại kiểu dữ liệu của tham số
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -98,7 +104,7 @@ public class User {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) { // Bổ sung setter cho birthDate
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
