@@ -27,7 +27,7 @@ public class TwitDto {
     private int totalRetweets;
 
     private boolean isLiked;
-
+    private boolean isRetwit;
     private List<Long> retwitUserId;
     private List<TwitDto> replyTwits;
 }
