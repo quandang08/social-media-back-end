@@ -38,7 +38,7 @@ public class AppConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000")); // Cho phép React frontend
+        configuration.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000")); // Cho phép React frontend
         configuration.setAllowedMethods(Collections.singletonList("*")); // Cho phép tất cả HTTP methods
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Collections.singletonList("*"));
