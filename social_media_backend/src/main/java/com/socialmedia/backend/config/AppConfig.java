@@ -14,7 +14,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -24,13 +23,14 @@ public class AppConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Cấu hình CORS
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Đặt CORS trước tiên
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless session
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtTokenValidation(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/**").authenticated() // Chỉ yêu cầu xác thực với route API
-                        .anyRequest().permitAll() // Các route khác không yêu cầu xác thực
+                        .requestMatchers("/api/auth/signup", "/api/auth/signin").permitAll() // Cho phép đăng ký & đăng nhập
+                        .requestMatchers("/api/**").authenticated() // Các API khác cần xác thực
+                        .anyRequest().permitAll()
                 );
         return http.build();
     }
@@ -38,13 +38,13 @@ public class AppConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000")); // Cho phép React frontend
-        configuration.setAllowedMethods(Collections.singletonList("*")); // Cho phép tất cả HTTP methods
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Frontend React
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("Authorization"));
-        configuration.setMaxAge(3600L);
+        configuration.setAllowCredentials(true);
 
+        // Cho phép mọi endpoint sử dụng CORS
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

@@ -1,12 +1,13 @@
 package com.socialmedia.backend.response;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class AuthResponse {
     private String jwt;
     private boolean status;
-
-    // Constructor không tham số
-    public AuthResponse() {
-    }
 
     // Constructor có tham số
     public AuthResponse(String jwt, boolean status) {
@@ -14,23 +15,4 @@ public class AuthResponse {
         this.status = status;
     }
 
-    // Getter cho jwt
-    public String getJwt() {
-        return jwt;
-    }
-
-    // Setter cho jwt
-    public void setJwt(String jwt) {
-        this.jwt = jwt;
-    }
-
-    // Getter cho status
-    public boolean isStatus() {
-        return status;
-    }
-
-    // Setter cho status
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
 }
