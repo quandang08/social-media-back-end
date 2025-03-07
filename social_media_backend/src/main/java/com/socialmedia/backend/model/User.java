@@ -1,5 +1,6 @@
 package com.socialmedia.backend.model;
 
+import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,7 +20,7 @@ public class User {
     private String fullName;
     private String location;
     private String website;
-    private String birthDate;
+    private LocalDate birthDate;
     private String email;
     private String password;
     private String mobile;
@@ -49,11 +50,7 @@ public class User {
     private List<User> followers = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "user_following",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "following_id")
-    )
+    @ManyToMany(mappedBy = "followers")
+
     private List<User> following = new ArrayList<>();
 }

@@ -10,10 +10,9 @@ import java.time.LocalDateTime;
 @Setter
 @Embeddable
 public class Verification {
-    // Getter và Setter
     private boolean status = false;
-    private LocalDateTime started;
-    private LocalDateTime endsAt;
-    private String planType;
-
+    private LocalDateTime started = LocalDateTime.now();
+    private LocalDateTime endsAt = LocalDateTime.now().plusMonths(1);
+    private String planType = "FREE";
 }
+

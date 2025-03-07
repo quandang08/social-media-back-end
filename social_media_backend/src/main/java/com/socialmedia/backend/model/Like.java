@@ -2,7 +2,9 @@ package com.socialmedia.backend.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
 @Getter
 @Entity
 @Table(name = "likes")
@@ -18,15 +20,4 @@ public class Like {
     @ManyToOne
     private Twit twit;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setTwit(Twit twit) {
-        this.twit = twit;
-    }
 }
