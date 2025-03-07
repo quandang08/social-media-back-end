@@ -57,4 +57,7 @@ public interface UserService {
      * @return Danh sách User phù hợp với từ khóa.
      */
     List<User> searchUser(String query);
+
+
+    User findUserByEmail(String email) throws UserException;
 }

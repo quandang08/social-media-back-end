@@ -73,4 +73,9 @@ public class UserServiceImplementation implements UserService{
     public List<User> searchUser(String query) {
         return userRepository.searchUser(query);
     }
+
+    @Override
+    public User findUserByEmail(String email) throws UserException {
+        return userRepository.findUserByEmail(email);
+    }
 }

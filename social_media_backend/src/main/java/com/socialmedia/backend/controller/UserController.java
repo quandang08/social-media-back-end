@@ -7,6 +7,8 @@ import com.socialmedia.backend.model.User;
 import com.socialmedia.backend.service.UserService;
 import com.socialmedia.backend.util.UserUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +40,7 @@ public class UserController {
         userDto.setReq_user(UserUtil.isReqUser(reqUser, user));
         userDto.setFollowed(UserUtil.isFollowedByReqUser(reqUser, user));
 
-        return ResponseEntity.ok(userDto);
+        return new ResponseEntity<>(userDto, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/search")

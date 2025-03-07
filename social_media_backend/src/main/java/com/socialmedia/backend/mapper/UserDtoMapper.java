@@ -15,7 +15,7 @@ public class UserDtoMapper {
         userDto.setImage(user.getImage());
         userDto.setBackgroundImage(user.getBackgroundImage());
         userDto.setBio(user.getBio());
-        userDto.setBirthDate(user.getBirthDate());
+        userDto.setBirthDate(String.valueOf(user.getBirthDate()));
         userDto.setFollowers(toUserDtos(user.getFollowers()));
         userDto.setFollowing(toUserDtos(user.getFollowing()));
         userDto.setLogin_with_google(user.isLoginWithGoogle());

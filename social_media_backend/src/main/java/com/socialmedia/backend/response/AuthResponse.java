@@ -9,7 +9,6 @@ public class AuthResponse {
     private String jwt;
     private boolean status;
 
-    // Constructor có tham số
     public AuthResponse(String jwt, boolean status) {
         this.jwt = jwt;
         this.status = status;

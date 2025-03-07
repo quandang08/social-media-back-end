@@ -34,16 +34,19 @@ public class TwitServiceImplementation implements TwitService {
 
     @Override
     public List<Twit> findAllTwit() {
-
         return twitRepository.findAllByIsTwitTrueOrderByCreatedAtDesc();
     }
 
     @Override
     public Twit retwit(Long twitId, User user) throws UserException, TwitException {
+        if (user == null || user.getId() == null) {
+            throw new UserException("User must be authenticated to retweet");
+        }
+
         Twit twit = findById(twitId);
-        if(twit.getRetwitUser().contains(user)){
+        if (twit.getRetwitUser().contains(user)) {
             twit.getRetwitUser().remove(user);
-        }else{
+        } else {
             twit.getRetwitUser().add(user);
         }
         return twitRepository.save(twit);
@@ -88,9 +91,11 @@ public class TwitServiceImplementation implements TwitService {
         twit.setReply(true);
         twit.setTwit(false);
         twit.setReplyFor(replyFor);
+
         Twit savedReply = twitRepository.save(twit);
 
-        twit.getReplyTwits().add(savedReply);
+        //twit.getReplyTwits().add(savedReply);
+        replyFor.getReplyTwits().add(savedReply);
         twitRepository.save(replyFor);
 
         return replyFor;
