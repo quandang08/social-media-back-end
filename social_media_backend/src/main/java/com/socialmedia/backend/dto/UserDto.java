@@ -7,8 +7,8 @@ import java.util.List;
 
 @Data
 public class UserDto {
-    private  Long id;
-    private  String fullName;
+    private Long id;
+    private String fullName;
     private String email;
     private String image;
     private String location;
@@ -20,8 +20,8 @@ public class UserDto {
     private boolean req_user;
     private boolean login_with_google;
 
-    private List<UserDto> followers = new ArrayList<>();
-    private List<UserDto> following = new ArrayList<>();
+    private List<Long> followers = new ArrayList<>();
+    private List<Long> following = new ArrayList<>();
 
     private boolean followed;
     private boolean isVerified;

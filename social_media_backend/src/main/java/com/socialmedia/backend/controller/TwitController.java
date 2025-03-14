@@ -26,6 +26,17 @@ public class TwitController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/")
+    public ResponseEntity<List<TwitDto>> getAllTwits(
+            @RequestHeader("Authorization") String jwt)throws UserException, TwitException {
+
+        User user = userService.findUserProfileByJwt(jwt);
+        List<Twit> twits = twitService.findAllTwit();
+        List<TwitDto> twitDtos = TwitDtoMapper.toTwitDtos(twits, user);
+
+        return new ResponseEntity<>(twitDtos, HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<TwitDto> createTwit(@RequestBody Twit req,
                                               @RequestHeader("Authorization") String jwt) throws UserException, TwitException {
@@ -44,16 +55,7 @@ public class TwitController {
         return new ResponseEntity<>(twitDto, HttpStatus.CREATED);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<TwitDto>> getAllTwits(
-            @RequestHeader("Authorization") String jwt)throws UserException, TwitException {
 
-        User user = userService.findUserProfileByJwt(jwt);
-        List<Twit> twits = twitService.findAllTwit();
-        List<TwitDto> twitDtos = TwitDtoMapper.toTwitDtos(twits, user);
-
-        return new ResponseEntity<>(twitDtos, HttpStatus.OK);
-    }
 
     @PutMapping("/{twitId}/retwit")
     public ResponseEntity<TwitDto> reTwit(@PathVariable Long twitId,
@@ -81,8 +83,6 @@ public class TwitController {
         ApiResponse res = new ApiResponse("Twit deleted successfully", true);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
-
-
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<TwitDto>> getUserAllTwits(@PathVariable Long userId,

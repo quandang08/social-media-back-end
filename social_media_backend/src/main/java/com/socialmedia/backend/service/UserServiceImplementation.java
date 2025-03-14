@@ -71,6 +71,7 @@ public class UserServiceImplementation implements UserService{
 
     @Override
     public List<User> searchUser(String query) {
+        System.out.println("🔍 Searching for users with query: " + query);
         return userRepository.searchUser(query);
     }
 
@@ -78,4 +79,11 @@ public class UserServiceImplementation implements UserService{
     public User findUserByEmail(String email) throws UserException {
         return userRepository.findUserByEmail(email);
     }
+
+    @Override
+    public List<User> findUsersNotFollowedBy(Long userId) {
+        return userRepository.findUsersNotFollowedBy(userId);
+    }
+
+
 }

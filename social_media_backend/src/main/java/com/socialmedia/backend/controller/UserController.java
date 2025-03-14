@@ -80,4 +80,17 @@ public class UserController {
 
         return ResponseEntity.ok(userDto);
     }
+
+    @GetMapping("/not-followed")
+    public ResponseEntity<List<UserDto>> getUsersNotFollowed(@RequestHeader("Authorization") String jwt) throws UserException {
+        User reqUser = userService.findUserProfileByJwt(jwt);
+        List<User> users = userService.findUsersNotFollowedBy(reqUser.getId());
+
+        List<UserDto> userDtos = users.stream()
+                .map(UserDtoMapper::toUserDto)
+                .toList();
+
+        return ResponseEntity.ok(userDtos);
+    }
+
 }

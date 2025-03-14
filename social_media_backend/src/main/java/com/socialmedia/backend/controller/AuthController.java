@@ -90,37 +90,6 @@ public class AuthController {
         return new ResponseEntity<>(new AuthResponse(token, true), HttpStatus.OK);
     }
 
-//    @PostMapping("/login")
-//    public LoginResponse login(@RequestBody  LoginRequest loginRequest) throws UserException {
-//        // validate
-//
-//        // check email
-//        User user = userService.findUserByEmail(loginRequest.getEmail());
-//        if (user == null) {
-//            return LoginResponse.builder()
-//                    .status("001")
-//                    .sessionId(null)
-//                    .message("User not found with email: " + loginRequest.getEmail())
-//                    .build();
-//        }
-//
-//        // verify passw correct
-//        if(!user.getPassword().equals(loginRequest.getPassword())) {
-//            return LoginResponse.builder()
-//                    .status("000")
-//                    .sessionId(null)
-//                    .message("pwd not found match: " + loginRequest.getEmail())
-//                    .build();
-//        }
-//        String sessionId = UUID.randomUUID().toString();
-//        sessionData.put(sessionId, user);
-//
-//        return LoginResponse.builder()
-//                .status("002")
-//                .sessionId(sessionId)
-//                .message("Loggin success and your ses id is " + sessionId)
-//                .build();
-//    }
     private Authentication authenticate(String username, String password) throws UserException {
         UserDetails userDetails = customUserDetails.loadUserByUsername(username);
 

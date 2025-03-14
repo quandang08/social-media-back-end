@@ -16,14 +16,17 @@ public class UserDtoMapper {
         userDto.setBackgroundImage(user.getBackgroundImage());
         userDto.setBio(user.getBio());
         userDto.setBirthDate(String.valueOf(user.getBirthDate()));
-        userDto.setFollowers(toUserDtos(user.getFollowers()));
-        userDto.setFollowing(toUserDtos(user.getFollowing()));
+
+        // Chỉ lưu ID thay vì Object đầy đủ
+        userDto.setFollowers(user.getFollowers().stream().map(User::getId).toList());
+        userDto.setFollowing(user.getFollowing().stream().map(User::getId).toList());
+
         userDto.setLogin_with_google(user.isLoginWithGoogle());
         userDto.setLocation(user.getLocation());
         userDto.setVerified(false);
-
         return userDto;
     }
+
 
     public static List<UserDto> toUserDtos(List<User> followers) {
         List<UserDto> userDtos = new ArrayList<>();

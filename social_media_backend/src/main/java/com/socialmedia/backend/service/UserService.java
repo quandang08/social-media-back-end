@@ -58,6 +58,13 @@ public interface UserService {
      */
     List<User> searchUser(String query);
 
-
     User findUserByEmail(String email) throws UserException;
+
+    /**
+     * Lấy danh sách người dùng mà user hiện tại chưa follow.
+     *
+     * @param userId ID của người dùng hiện tại.
+     * @return Danh sách User chưa được follow.
+     */
+    List<User> findUsersNotFollowedBy(Long userId);
 }
