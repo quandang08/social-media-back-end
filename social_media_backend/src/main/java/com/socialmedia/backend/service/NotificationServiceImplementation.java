@@ -1,10 +1,12 @@
 package com.socialmedia.backend.service;
 
+import com.socialmedia.backend.entities.User;
 import com.socialmedia.backend.models.NotificationDto;
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.entities.Notification;
 import com.socialmedia.backend.repository.NotificationRepository;
 import com.socialmedia.backend.mapper.NotificationMapper;
+import com.socialmedia.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -18,35 +20,42 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class NotificationServiceImplementation implements NotificationService {
 
+    private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
     private final SimpMessagingTemplate messagingTemplate;
 
     @Override
     public List<NotificationDto> getNotificationsForUser(Long userId) throws UserException {
         List<Notification> notifications = notificationRepository.findByUserIdOrderByCreatedAtDesc(userId);
+
         return notifications.stream()
-                .map(NotificationMapper::toNotificationDto)
+                .map(notification -> {
+                    // Lấy actor
+                    User actor = userRepository.findById(notification.getActorId()).orElse(null);
+                    // Gọi mapper có 2 tham số
+                    return NotificationMapper.toNotificationDto(notification, actor);
+                })
                 .collect(Collectors.toList());
     }
 
+
     @Override
     public NotificationDto markAsRead(Long notificationId, Long userId) throws UserException {
-        // 1) Tìm notification theo ID
         Notification noti = notificationRepository.findById(notificationId)
                 .orElseThrow(() -> new UserException("Notification not found"));
+        User actor = userRepository.findById(noti.getActorId()).orElse(null);
 
-        // 2) Kiểm tra xem thông báo này có thuộc về user hiện tại không
         if (!noti.getUserId().equals(userId)) {
             throw new UserException("Bạn không có quyền cập nhật thông báo này");
         }
 
-        // 3) Đánh dấu thông báo là đã đọc
+        // Đánh dấu thông báo là đã đọc
         noti.setRead(true);
         noti.setUpdatedAt(LocalDateTime.now());
         notificationRepository.save(noti);
 
-        // 4) Trả về DTO của notification đã cập nhật
-        return NotificationMapper.toNotificationDto(noti);
+        //Trả về DTO của notification đã cập nhật
+        return NotificationMapper.toNotificationDto(noti, actor);
     }
 
     @Override
@@ -76,7 +85,9 @@ public class NotificationServiceImplementation implements NotificationService {
     @Override
     public NotificationDto createAndSaveNotification(Notification notification) {
         Notification savedNotification = notificationRepository.save(notification);
-        NotificationDto dto = NotificationMapper.toNotificationDto(savedNotification);
+        User actor = userRepository.findById(notification.getActorId())
+                .orElse(null);
+        NotificationDto dto = NotificationMapper.toNotificationDto(savedNotification, actor);
 
         // Gửi thông báo realtime qua WebSocket
         messagingTemplate.convertAndSend("/topic/notifications/" + savedNotification.getUserId(), dto);
@@ -114,7 +125,7 @@ public class NotificationServiceImplementation implements NotificationService {
     }
 
     @Override
-    public NotificationDto handleFollowAction(Long targetUserId, Long actorUserId) throws UserException {
-        return createAndSaveNotification(createNotificationInstance(targetUserId, actorUserId, "follow", "started following you"));
+    public void handleFollowAction(Long targetUserId, Long actorUserId) throws UserException {
+        createAndSaveNotification(createNotificationInstance(targetUserId, actorUserId, "follow", "started following you"));
     }
 }

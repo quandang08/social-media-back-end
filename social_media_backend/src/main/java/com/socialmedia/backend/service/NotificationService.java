@@ -23,5 +23,5 @@ public interface NotificationService {
 
     void handleLikeAction(Long postId, Long targetUserId, Long actorUserId) throws UserException;
     void handleCommentAction(Long postId, Long targetUserId, Long actorUserId, String commentContent) throws UserException;
-    NotificationDto handleFollowAction(Long targetUserId, Long actorUserId) throws UserException;
+    void handleFollowAction(Long targetUserId, Long actorUserId) throws UserException;
 }

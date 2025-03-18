@@ -13,6 +13,7 @@ public class NotificationDto {
     private String type;
     private String content;
     private boolean read;
+    private String image;
     private String createdAt;
     private String updatedAt;
 }
