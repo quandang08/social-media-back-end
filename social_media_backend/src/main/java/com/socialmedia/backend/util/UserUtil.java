@@ -1,6 +1,6 @@
 package com.socialmedia.backend.util;
 
-import com.socialmedia.backend.model.User;
+import com.socialmedia.backend.entities.User;
 
 public class UserUtil {
     public static boolean isReqUser(User reqUser, User user2){

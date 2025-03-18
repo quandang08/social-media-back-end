@@ -1,4 +1,4 @@
-package com.socialmedia.backend.model;
+package com.socialmedia.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

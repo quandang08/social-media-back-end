@@ -1,4 +1,4 @@
-package com.socialmedia.backend.model;
+package com.socialmedia.backend.entities;
 
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;

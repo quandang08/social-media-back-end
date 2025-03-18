@@ -1,6 +1,6 @@
 package com.socialmedia.backend.security;
 
-import com.socialmedia.backend.model.User;
+import com.socialmedia.backend.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;

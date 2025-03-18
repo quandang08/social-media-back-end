@@ -1,8 +1,7 @@
 package com.socialmedia.backend.service;
 
-import com.socialmedia.backend.model.User;
+import com.socialmedia.backend.entities.User;
 import com.socialmedia.backend.repository.UserRepository;
-import com.socialmedia.backend.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

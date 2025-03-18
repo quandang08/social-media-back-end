@@ -1,8 +1,8 @@
 package com.socialmedia.backend.controller;
 
 import com.socialmedia.backend.exception.UserException;
-import com.socialmedia.backend.model.User;
-import com.socialmedia.backend.model.Verification;
+import com.socialmedia.backend.entities.User;
+import com.socialmedia.backend.entities.Verification;
 import com.socialmedia.backend.repository.UserRepository;
 import com.socialmedia.backend.response.AuthResponse;
 import com.socialmedia.backend.security.JwtProvider;
