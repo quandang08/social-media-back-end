@@ -1,7 +1,7 @@
 package com.socialmedia.backend.service;
 
 import com.socialmedia.backend.exception.UserException;
-import com.socialmedia.backend.model.User;
+import com.socialmedia.backend.entities.User;
 import com.socialmedia.backend.repository.UserRepository;
 import com.socialmedia.backend.security.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,9 @@ public class UserServiceImplementation implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     private JwtProvider jwtProvider;
@@ -85,5 +88,36 @@ public class UserServiceImplementation implements UserService{
         return userRepository.findUsersNotFollowedBy(userId);
     }
 
+    @Override
+    public User followUserAndNotify(Long targetUserId, String jwt) throws UserException {
+        // Lấy user thực hiện follow (actor)
+        User actorUser = findUserProfileByJwt(jwt);
 
+        //Lấy user được follow (targetUser)
+        User targetUser = findUserById(targetUserId);
+
+        // Kiểm tra follow/unfollow
+        boolean isFollowing = actorUser.getFollowing().contains(targetUser);
+        if (isFollowing) {
+            // Đang follow => unfollow
+            actorUser.getFollowing().remove(targetUser);
+            targetUser.getFollowers().remove(actorUser);
+        } else {
+            // Chưa follow => follow
+            actorUser.getFollowing().add(targetUser);
+            targetUser.getFollowers().add(actorUser);
+
+            // Gửi notification
+            if (!actorUser.getId().equals(targetUser.getId())) {
+                notificationService.handleFollowAction(targetUser.getId(), actorUser.getId());
+            }
+        }
+
+        //Lưu DB
+        userRepository.save(actorUser);
+        userRepository.save(targetUser);
+
+        //Trả về user được follow (targetUser)
+        return targetUser;
+    }
 }
