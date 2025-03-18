@@ -1,8 +1,7 @@
 package com.socialmedia.backend.util;
 
-import com.socialmedia.backend.model.Like;
-import com.socialmedia.backend.model.Twit;
-import com.socialmedia.backend.model.User;
+import com.socialmedia.backend.entities.Twit;
+import com.socialmedia.backend.entities.User;
 
 public class TwitUtil {
 

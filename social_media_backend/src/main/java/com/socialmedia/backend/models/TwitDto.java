@@ -1,6 +1,5 @@
-package com.socialmedia.backend.dto;
+package com.socialmedia.backend.models;
 
-import com.socialmedia.backend.model.Twit;
 import lombok.Data;
 
 import java.time.LocalDateTime;

@@ -1,7 +1,7 @@
 package com.socialmedia.backend.repository;
 
-import com.socialmedia.backend.model.Twit;
-import com.socialmedia.backend.model.User;
+import com.socialmedia.backend.entities.Twit;
+import com.socialmedia.backend.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

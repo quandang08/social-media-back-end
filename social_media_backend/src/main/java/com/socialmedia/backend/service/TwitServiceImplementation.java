@@ -2,8 +2,10 @@ package com.socialmedia.backend.service;
 
 import com.socialmedia.backend.exception.TwitException;
 import com.socialmedia.backend.exception.UserException;
-import com.socialmedia.backend.model.Twit;
-import com.socialmedia.backend.model.User;
+import com.socialmedia.backend.entities.Twit;
+import com.socialmedia.backend.entities.User;
+import com.socialmedia.backend.mapper.TwitDtoMapper;
+import com.socialmedia.backend.models.TwitDto;
 import com.socialmedia.backend.repository.TwitRepository;
 import com.socialmedia.backend.request.TwitReplyRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,10 @@ public class TwitServiceImplementation implements TwitService {
 
     @Autowired
     private TwitRepository twitRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private NotificationService notificationService;
 
     @Override
     public Twit createTwit(Twit req, User user) throws UserException {
@@ -80,26 +86,51 @@ public class TwitServiceImplementation implements TwitService {
 
     @Override
     public Twit createdReply(TwitReplyRequest req, User user) throws TwitException {
-        Twit replyFor =findById(req.getTwitId());
-        Twit twit = new Twit();
+        Twit parentTwit = findById(req.getTwitId());
 
-        twit.setContent(req.getContent());
-        twit.setCreatedAt(LocalDateTime.now());
-        twit.setImage(req.getImage());
-        twit.setUser(user);
+        // Tạo reply mới
+        Twit reply = new Twit();
+        reply.setContent(req.getContent());
+        reply.setCreatedAt(LocalDateTime.now());
+        reply.setImage(req.getImage());
+        reply.setUser(user);
+        reply.setReply(true);
+        reply.setTwit(false);
+        reply.setReplyFor(parentTwit);
 
-        twit.setReply(true);
-        twit.setTwit(false);
-        twit.setReplyFor(replyFor);
+        // Lưu reply mới vào DB
+        Twit savedReply = twitRepository.save(reply);
 
-        Twit savedReply = twitRepository.save(twit);
+        // Cập nhật danh sách reply của bài đăng gốc
+        parentTwit.getReplyTwits().add(savedReply);
+        twitRepository.save(parentTwit);
 
-        //twit.getReplyTwits().add(savedReply);
-        replyFor.getReplyTwits().add(savedReply);
-        twitRepository.save(replyFor);
-
-        return replyFor;
+        // Trả về reply mới được tạo (đã lưu)
+        return savedReply;
     }
+
+    @Override
+    public TwitDto replyTwitAndNotify(TwitReplyRequest req, String jwt) throws TwitException, UserException {
+        // 1. Lấy user từ JWT thông qua UserService
+        User user = userService.findUserProfileByJwt(jwt);
+
+        // 2. Tạo reply mới bằng cách gọi createdReply (đã được định nghĩa ở trên)
+        Twit savedReply = createdReply(req, user);
+
+        // 3. Lấy bài đăng gốc mà reply này trả lời
+        Twit parentTwit = savedReply.getReplyFor();
+        if (parentTwit != null) {
+            Long twitOwnerId = parentTwit.getUser().getId();
+            // 4. Nếu người reply khác chủ của bài đăng gốc, gửi thông báo comment
+            if (!user.getId().equals(twitOwnerId)) {
+                notificationService.handleCommentAction(parentTwit.getId(), twitOwnerId, user.getId(), req.getContent());
+            }
+        }
+
+        // 5. Chuyển đổi reply (savedReply) sang TwitDto và trả về
+        return TwitDtoMapper.toTwitDto(savedReply, user);
+    }
+
 
     @Override
     public List<Twit> getUserTwit(User user) {
@@ -110,5 +141,7 @@ public class TwitServiceImplementation implements TwitService {
     public List<Twit> findByLikesContainsUser(User user) {
         return twitRepository.findByLikesUserId(user.getId());
     }
+
+
 
 }

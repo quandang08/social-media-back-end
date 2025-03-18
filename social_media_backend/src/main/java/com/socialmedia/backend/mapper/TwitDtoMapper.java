@@ -1,9 +1,9 @@
 package com.socialmedia.backend.mapper;
 
-import com.socialmedia.backend.dto.TwitDto;
-import com.socialmedia.backend.dto.UserDto;
-import com.socialmedia.backend.model.Twit;
-import com.socialmedia.backend.model.User;
+import com.socialmedia.backend.models.TwitDto;
+import com.socialmedia.backend.models.UserDto;
+import com.socialmedia.backend.entities.Twit;
+import com.socialmedia.backend.entities.User;
 import com.socialmedia.backend.util.TwitUtil;
 
 import java.util.List;

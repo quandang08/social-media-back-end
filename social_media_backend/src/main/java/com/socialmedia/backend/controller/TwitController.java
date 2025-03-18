@@ -1,13 +1,14 @@
 package com.socialmedia.backend.controller;
 
-import com.socialmedia.backend.dto.TwitDto;
+import com.socialmedia.backend.models.TwitDto;
 import com.socialmedia.backend.exception.TwitException;
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.mapper.TwitDtoMapper;
-import com.socialmedia.backend.model.Twit;
-import com.socialmedia.backend.model.User;
+import com.socialmedia.backend.entities.Twit;
+import com.socialmedia.backend.entities.User;
 import com.socialmedia.backend.request.TwitReplyRequest;
 import com.socialmedia.backend.response.ApiResponse;
+import com.socialmedia.backend.service.NotificationService;
 import com.socialmedia.backend.service.TwitService;
 import com.socialmedia.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class TwitController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/")
     public ResponseEntity<List<TwitDto>> getAllTwits(
@@ -48,14 +52,12 @@ public class TwitController {
 
     @PostMapping("/reply")
     public ResponseEntity<TwitDto> replyTwit(@RequestBody TwitReplyRequest req,
-                                             @RequestHeader("Authorization") String jwt) throws UserException, TwitException {
-        User user = userService.findUserProfileByJwt(jwt);
-        Twit twit = twitService.createdReply(req, user);
-        TwitDto twitDto = TwitDtoMapper.toTwitDto(twit, user);
+                                             @RequestHeader("Authorization") String jwt)
+            throws UserException, TwitException {
+
+        TwitDto twitDto = twitService.replyTwitAndNotify(req, jwt);
         return new ResponseEntity<>(twitDto, HttpStatus.CREATED);
     }
-
-
 
     @PutMapping("/{twitId}/retwit")
     public ResponseEntity<TwitDto> reTwit(@PathVariable Long twitId,

@@ -2,8 +2,9 @@ package com.socialmedia.backend.service;
 
 import com.socialmedia.backend.exception.TwitException;
 import com.socialmedia.backend.exception.UserException;
-import com.socialmedia.backend.model.Twit;
-import com.socialmedia.backend.model.User;
+import com.socialmedia.backend.entities.Twit;
+import com.socialmedia.backend.entities.User;
+import com.socialmedia.backend.models.TwitDto;
 import com.socialmedia.backend.request.TwitReplyRequest;
 
 import java.util.List;
@@ -31,11 +32,15 @@ public interface TwitService {
     // Tạo phản hồi cho một Twit từ yêu cầu (req) và người dùng (user).
     public Twit createdReply(TwitReplyRequest req, User user) throws TwitException;
 
+    TwitDto replyTwitAndNotify(TwitReplyRequest req, String jwt) throws UserException;
+
     // Lấy tất cả các Twit của người dùng (user).
     public List<Twit> getUserTwit(User user);
 
     // Tìm các Twit mà người dùng (user) đã thích.
     public List<Twit> findByLikesContainsUser(User user);
+
+
 }
 
 
