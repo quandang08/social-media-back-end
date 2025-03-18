@@ -1,7 +1,7 @@
 package com.socialmedia.backend.mapper;
 
-import com.socialmedia.backend.dto.NotificationDto;
-import com.socialmedia.backend.model.Notification;
+import com.socialmedia.backend.models.NotificationDto;
+import com.socialmedia.backend.entities.Notification;
 
 public class NotificationMapper {
     public static NotificationDto toNotificationDto(Notification notification) {

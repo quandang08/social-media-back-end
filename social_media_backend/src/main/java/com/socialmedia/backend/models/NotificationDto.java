@@ -1,4 +1,4 @@
-package com.socialmedia.backend.dto;
+package com.socialmedia.backend.models;
 
 import lombok.*;
 

@@ -1,9 +1,11 @@
-package com.socialmedia.backend.model;
+package com.socialmedia.backend.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "notifications")
 @Data
@@ -20,7 +22,7 @@ public class Notification {
     private Long actorId;
     private String type;
     private String content;
-    private boolean isRead; // Đổi từ `read` thành `isRead`
+    private boolean isRead;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

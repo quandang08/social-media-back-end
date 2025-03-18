@@ -1,6 +1,6 @@
 package com.socialmedia.backend.controller;
 
-import com.socialmedia.backend.dto.NotificationDto;
+import com.socialmedia.backend.models.NotificationDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,6 @@ public class NotificationWebSocketController {
 
     // Phương thức này được gọi khi có notification mới cần gửi tới client
     public void sendNotification(NotificationDto notificationDto) {
-        // Gửi notification tới topic /topic/notifications
         messagingTemplate.convertAndSend("/topic/notifications", notificationDto);
     }
 }
