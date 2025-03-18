@@ -1,4 +1,4 @@
-package com.socialmedia.backend.model;
+package com.socialmedia.backend.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

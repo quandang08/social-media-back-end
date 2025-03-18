@@ -1,6 +1,6 @@
 package com.socialmedia.backend.repository;
 
-import com.socialmedia.backend.model.Like;
+import com.socialmedia.backend.entities.Like;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,4 +15,8 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
     @Query("SELECT l FROM Like l WHERE l.twit.id = :twitId")
     List<Like> findByTwitId(@Param("twitId") Long twitId);
+
+    @Query("SELECT COUNT(l) FROM Like l WHERE l.twit.id = :twitId")
+    int countLikesByTwitId(@Param("twitId") Long twitId);
 }
+

@@ -1,10 +1,10 @@
 package com.socialmedia.backend.mapper;
 
-import com.socialmedia.backend.dto.LikeDto;
-import com.socialmedia.backend.dto.TwitDto;
-import com.socialmedia.backend.dto.UserDto;
-import com.socialmedia.backend.model.Like;
-import com.socialmedia.backend.model.User;
+import com.socialmedia.backend.models.LikeDto;
+import com.socialmedia.backend.models.TwitDto;
+import com.socialmedia.backend.models.UserDto;
+import com.socialmedia.backend.entities.Like;
+import com.socialmedia.backend.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
