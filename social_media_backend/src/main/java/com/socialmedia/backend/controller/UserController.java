@@ -23,6 +23,12 @@ public class UserController {
 
     private NotificationService notificationService;
 
+    @GetMapping("/all")
+    public ResponseEntity<List<UserDto>> getAllUsers() throws UserException {
+        List<UserDto> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
     @GetMapping("/profile")
     public ResponseEntity<UserDto> getUserProfile(@RequestHeader("Authorization") String jwt) throws UserException {
         User user = userService.findUserProfileByJwt(jwt);
@@ -83,6 +89,19 @@ public class UserController {
         userDto.setFollowed(UserUtil.isFollowedByReqUser(reqUser, targetUser));
 
         return ResponseEntity.ok(userDto);
+    }
+
+    @GetMapping("/{id}/followers")
+    public ResponseEntity<List<UserDto>> getFollowers(@PathVariable Long id) {
+        List<UserDto> followers = userService.getFollowers(id);
+        return ResponseEntity.ok(followers);
+    }
+
+    // API lấy danh sách following của một user
+    @GetMapping("/{id}/following")
+    public ResponseEntity<List<UserDto>> getFollowing(@PathVariable Long id) {
+        List<UserDto> following = userService.getFollowing(id);
+        return ResponseEntity.ok(following);
     }
 
     @GetMapping("/not-followed")

@@ -2,6 +2,7 @@ package com.socialmedia.backend.service;
 
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.entities.User;
+import com.socialmedia.backend.models.UserDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Service
 public interface UserService {
-
+    List<UserDto> getAllUsers() throws UserException;
     User findUserById(Long userId) throws UserException;
     /**
      * Lấy thông tin User dựa trên JWT token.
@@ -28,6 +29,8 @@ public interface UserService {
 
     List<User> searchUser(String query);
 
+    List<UserDto>  getFollowers(Long userId);
+    List<UserDto> getFollowing(Long userId);
     User findUserByEmail(String email) throws UserException;
 
     /**
@@ -39,4 +42,6 @@ public interface UserService {
     List<User> findUsersNotFollowedBy(Long userId);
 
     User followUserAndNotify(Long targetUserId, String jwt) throws UserException;
+
+
 }

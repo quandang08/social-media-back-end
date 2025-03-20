@@ -2,15 +2,20 @@ package com.socialmedia.backend.service;
 
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.entities.User;
+import com.socialmedia.backend.mapper.UserDtoMapper;
+import com.socialmedia.backend.models.UserDto;
 import com.socialmedia.backend.repository.UserRepository;
 import com.socialmedia.backend.security.JwtProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImplementation implements UserService{
 
     @Autowired
@@ -21,6 +26,15 @@ public class UserServiceImplementation implements UserService{
 
     @Autowired
     private JwtProvider jwtProvider;
+
+
+    @Override
+    public List<UserDto> getAllUsers() throws UserException {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(user -> new UserDto(user.getId(), user.getFullName(), user.getEmail(), user.getImage()))
+                .collect(Collectors.toList());
+    }
 
     @Override
     public User findUserById(Long userId) throws UserException {
@@ -76,6 +90,24 @@ public class UserServiceImplementation implements UserService{
     public List<User> searchUser(String query) {
         System.out.println("🔍 Searching for users with query: " + query);
         return userRepository.searchUser(query);
+    }
+
+    @Override
+    public List<UserDto> getFollowers(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getFollowers().stream()
+                .map(UserDtoMapper::toUserDto)
+                .toList();
+    }
+
+    @Override
+    public List<UserDto> getFollowing(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getFollowing().stream()
+                .map(UserDtoMapper::toUserDto)
+                .toList();
     }
 
     @Override

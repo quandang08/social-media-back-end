@@ -1,11 +1,13 @@
 package com.socialmedia.backend.models;
 
-import lombok.Data;
-
+import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
     private Long id;
     private String fullName;
@@ -25,4 +27,12 @@ public class UserDto {
 
     private boolean followed;
     private boolean isVerified;
+
+    public UserDto(Long id, String fullName, String email, String image) {
+        this.id = id;
+        this.fullName = fullName;
+        this.email = email;
+        this.image = image;
+    }
+
 }

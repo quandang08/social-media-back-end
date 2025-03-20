@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+    @Query("SELECT u FROM User u")
+    List<User> getAllUsers();
+
     Optional<User> findByEmail(String email);
     @Query("SELECT DISTINCT u FROM User u WHERE LOWER(u.fullName) LIKE LOWER(CONCAT('%', :query, '%')) " +
             "OR LOWER(u.email) LIKE LOWER(CONCAT('%', :query, '%'))")
