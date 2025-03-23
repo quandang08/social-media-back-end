@@ -22,6 +22,12 @@ public class AuraController {
 
     @GetMapping("/explain")
     public ResponseEntity<String> explain(@RequestParam String topic) {
+        if (topic == null || topic.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Topic không được để trống.");
+        }
+        if (topic.length() > 100) {
+            return ResponseEntity.badRequest().body("Topic quá dài. Giới hạn 100 ký tự.");
+        }
         String explanation = auraService.getShortExplanation(topic);
         return ResponseEntity.ok(explanation);
     }
