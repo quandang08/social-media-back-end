@@ -30,6 +30,9 @@ public class LikeController {
     @Autowired
     private NotificationService notificationService;
 
+    /*
+        jwt: always send in request Header
+     */
     @PostMapping("/{twitId}/likes")
     public WrapperResponse<Object> likeTwit(@PathVariable Long twitId, @RequestHeader("Authorization") String jwt)
             throws TwitException, UserException {

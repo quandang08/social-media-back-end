@@ -4,19 +4,25 @@ import com.socialmedia.backend.entities.Aura;
 import com.socialmedia.backend.repository.AuraChatMessageRepository;
 import com.socialmedia.backend.request.AuraRequest;
 import com.socialmedia.backend.response.AuraResponse;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Data
 public class AuraService {
     @Autowired
-    private GeminiService geminiService;
+    public GeminiService geminiService;
 
     @Autowired
-    private AuraChatMessageRepository auraChatMessageRepository;
+    public AuraChatMessageRepository auraChatMessageRepository;
+
+    /*public AuraService(GeminiService geminiService, AuraChatMessageRepository auraChatMessageRepository) {
+        this.geminiService = geminiService;
+        this.auraChatMessageRepository = auraChatMessageRepository;
+    }*/
 
     public AuraResponse processChat(AuraRequest request) {
-        // Gọi Gemini để lấy phản hồi từ AI
         String aiReply = geminiService.getChatCompletion(request.getContent());
 
         Aura auraMessage = new Aura();

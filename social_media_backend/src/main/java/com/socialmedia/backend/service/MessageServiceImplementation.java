@@ -62,12 +62,11 @@ public class MessageServiceImplementation implements MessageService{
     }
 
     @Override
-    public String deleteMessage(Long messageId) {
+    public void deleteMessage(Long messageId) {
         Message msg = messageRepository.findById(messageId)
                 .orElseThrow(() -> new RuntimeException("Message not found"));
 
         messageRepository.delete(msg);
-        return "Message deleted successfully";
     }
 
     @Override

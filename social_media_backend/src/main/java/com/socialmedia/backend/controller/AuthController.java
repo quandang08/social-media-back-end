@@ -3,11 +3,14 @@ package com.socialmedia.backend.controller;
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.entities.User;
 import com.socialmedia.backend.entities.Verification;
+import com.socialmedia.backend.models.authenticate.LoginRequest;
 import com.socialmedia.backend.repository.UserRepository;
 import com.socialmedia.backend.response.AuthResponse;
 import com.socialmedia.backend.security.JwtProvider;
 import com.socialmedia.backend.service.CustomUserDetailsServiceImplementation;
 import com.socialmedia.backend.service.UserService;
+import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +31,7 @@ public class AuthController {
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
     private final CustomUserDetailsServiceImplementation customUserDetails;
-    private final UserService userService;
+    @Getter
     private static Map<String, User> sessionData = new HashMap<>();
 
     @Autowired
@@ -41,9 +44,13 @@ public class AuthController {
         this.jwtProvider = jwtProvider;
         this.passwordEncoder = passwordEncoder;
         this.customUserDetails = customUserDetails;
-        this.userService = userService;
     }
 
+    public static void setSessionData(Map<String, User> sessionData) {
+        AuthController.sessionData = sessionData;
+    }
+
+    /* todo: refactor */
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws UserException {
         System.out.println("Received Signup Request: " + user); // Debug đầu vào
@@ -75,32 +82,26 @@ public class AuthController {
         return new ResponseEntity<>(new AuthResponse(token, true), HttpStatus.CREATED);
     }
 
-
+    /**
+     * todo: refactor
+     */
     @PostMapping("/signin")
-    public ResponseEntity<AuthResponse> signin(@RequestBody User user) throws UserException {
-        String username = user.getEmail();
-        String password = user.getPassword();
-
-        // Xác thực tài khoản
-        Authentication authentication = authenticate(username, password);
-
-        // Tạo JWT bằng email
-        String token = jwtProvider.generateJwt(username);
-
-        return new ResponseEntity<>(new AuthResponse(token, true), HttpStatus.OK);
-    }
-
-    private Authentication authenticate(String username, String password) throws UserException {
-        UserDetails userDetails = customUserDetails.loadUserByUsername(username);
-
-        if (userDetails == null) {
-            throw new UserException("User not found with email: " + username);
+    public ResponseEntity<AuthResponse> signin(@RequestBody LoginRequest request) throws UserException {
+        if (StringUtils.isAnyBlank(request.getEmail(), request.getPassword())) {
+            throw new UserException("Username or password cannot be empty");
         }
 
-        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+        UserDetails userDetails = customUserDetails.loadUserByUsername(request.getEmail());
+        if(userDetails == null){
+            throw new UserException("User not found with email: " + request.getEmail());
+        }
+
+        if (!passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
             throw new BadCredentialsException("Invalid password or username");
         }
 
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        String token = jwtProvider.generateJwt(request.getEmail());
+        return new ResponseEntity<>(new AuthResponse(token, true), HttpStatus.OK);
     }
+
 }
