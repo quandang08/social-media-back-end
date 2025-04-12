@@ -1,5 +1,6 @@
 package com.socialmedia.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto {
     private Long id;
     private String fullName;

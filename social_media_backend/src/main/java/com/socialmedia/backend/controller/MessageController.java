@@ -5,6 +5,7 @@ import com.socialmedia.backend.mapper.MessageMapper;
 import com.socialmedia.backend.models.MessageDto;
 import com.socialmedia.backend.service.MessageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,19 +15,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MessageController {
     private final MessageService messageService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @PostMapping("/send")
     public MessageDto sendMessage(@RequestBody MessageDto messageDto) {
-        Message message = messageService.sendMessage(
-                messageDto.getSenderId(),
-                messageDto.getReceiverId(),
-                messageDto.getContent(),
-                messageDto.getMessageType()
+        Message message = messageService.saveMessage(messageDto);
+        messagingTemplate.convertAndSendToUser(
+                messageDto.getReceiverId().toString(),  // User ID
+                "/queue/chat",  // Queue path
+                messageDto  // Response message
         );
         return MessageMapper.toMessageDto(message);
     }
 
-    // Endpoint lấy lịch sử chat giữa 2 user
     @GetMapping("/history")
     public List<MessageDto> getChatHistory(
             @RequestParam Long userA,

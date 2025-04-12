@@ -2,6 +2,7 @@ package com.socialmedia.backend.service;
 
 import com.socialmedia.backend.entities.Message;
 import com.socialmedia.backend.entities.MessageType;
+import com.socialmedia.backend.models.MessageDto;
 import com.socialmedia.backend.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,18 +18,16 @@ public class MessageServiceImplementation implements MessageService{
     private final MessageRepository messageRepository;
 
     @Override
-    public Message sendMessage(Long senderId, Long receiverId, String content, String type) {
-        // Tạo đối tượng Message
-        MessageType enumType = MessageType.valueOf(type.toUpperCase());
+    public Message saveMessage(MessageDto messageDto) {
+        MessageType enumType = MessageType.valueOf(messageDto.getMessageType().toUpperCase());
         Message msg = Message.builder()
-                .senderId(senderId)
-                .receiverId(receiverId)
-                .content(content)
+                .senderId(messageDto.getSenderId())
+                .receiverId(messageDto.getReceiverId())
+                .content(messageDto.getContent())
                 .messageType(enumType)
                 .isRead(false)
                 .createdAt(LocalDateTime.now())
                 .build();
-
         return messageRepository.save(msg);
     }
 

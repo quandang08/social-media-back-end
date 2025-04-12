@@ -19,38 +19,23 @@ public class ChatWebSocketController {
     @MessageMapping("/chat.sendMessage")
     public void handleMessage(@Payload MessageDto messageDto) {
         try {
-            // 1. Lưu vào database
-            Message savedMessage = messageService.sendMessage(
-                    messageDto.getSenderId(),
-                    messageDto.getReceiverId(),
-                    messageDto.getContent(),
-                    messageDto.getMessageType()
+            System.out.println("📨 Server nhận tin nhắn: " + messageDto);
+            Message savedMessage = messageService.saveMessage(messageDto);
+            MessageDto objResponse = MessageMapper.toMessageDto(savedMessage);
+            messagingTemplate.convertAndSend(
+                    "/queue/chat." + messageDto.getReceiverId(),
+                    objResponse
             );
-
-            // 2. Chuẩn bị DTO để gửi đi
-            MessageDto responseDto = MessageMapper.toMessageDto(savedMessage);
-
-            // 3. Gửi cho người nhận (QUAN TRỌNG: dùng convertAndSendToUser)
-            messagingTemplate.convertAndSendToUser(
-                    messageDto.getReceiverId().toString(),
-                    "/queue/chat",
-                    responseDto
-            );
-
-            // 4. Gửi cho người gửi (để sync đa thiết bị)
-            messagingTemplate.convertAndSendToUser(
-                    messageDto.getSenderId().toString(),
-                    "/queue/chat",
-                    responseDto
-            );
-
+            /*messagingTemplate.convertAndSend(
+                    "/queue/chat.success." + messageDto.getSenderId(),
+                    objResponse
+            );*/
         } catch (Exception e) {
-            // 5. Xử lý lỗi và gửi thông báo
-            messagingTemplate.convertAndSendToUser(
-                    messageDto.getSenderId().toString(),
-                    "/queue/errors",
-                    "Gửi tin nhắn thất bại: " + e.getMessage()
-            );
+            System.err.println("❌ Lỗi khi xử lý tin nhắn: " + e.getMessage());
         }
     }
+
+    // POST - mark daxem = 1 (messsagye)
+    //
+
 }

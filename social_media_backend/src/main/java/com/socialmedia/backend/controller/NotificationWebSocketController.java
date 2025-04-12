@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 public class NotificationWebSocketController {
     private final SimpMessagingTemplate messagingTemplate;
 
-    // Phương thức này được gọi khi có notification mới cần gửi tới client
     public void sendNotification(NotificationDto notificationDto) {
         messagingTemplate.convertAndSend("/topic/notifications", notificationDto);
     }

@@ -1,11 +1,12 @@
 package com.socialmedia.backend.service;
 
 import com.socialmedia.backend.entities.Message;
+import com.socialmedia.backend.models.MessageDto;
 
 import java.util.List;
 
 public interface MessageService {
-    Message sendMessage(Long senderId, Long receiverId, String content, String messageType);
+    Message saveMessage(MessageDto messageDto);
 
     List<Message> getChatHistory(Long userA, Long userB);
 
