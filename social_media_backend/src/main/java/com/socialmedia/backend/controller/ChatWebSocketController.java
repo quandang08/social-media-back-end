@@ -30,13 +30,19 @@ public class ChatWebSocketController {
                     "/queue/chat." + messageDto.getReceiverId(),
                     objResponse
             );
-            /*messagingTemplate.convertAndSend(
-                    "/queue/chat.success." + messageDto.getSenderId(),
-                    objResponse
-            );*/
         } catch (Exception e) {
             System.err.println("❌ Lỗi khi xử lý tin nhắn: " + e.getMessage());
         }
+    }
+
+    @MessageMapping("/chat.deleteMessage")
+    public void handleDelete(@Payload MessageDto messageDto) {
+        messageService.deleteMessage(messageDto.getId());
+
+        messageDto.setEventType("DELETED");
+
+        messagingTemplate.convertAndSend("/queue/chat." + messageDto.getReceiverId(), messageDto);
+        messagingTemplate.convertAndSend("/queue/chat." + messageDto.getSenderId(), messageDto);
     }
 
     // POST - mark daxem = 1 (messsagye)

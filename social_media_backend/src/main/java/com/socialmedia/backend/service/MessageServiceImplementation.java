@@ -32,17 +32,22 @@ public class MessageServiceImplementation implements MessageService{
     }
 
     @Override
+    public void deleteMessage(Long messageId) {
+        Message msg = messageRepository.findById(messageId)
+                .orElseThrow(() -> new RuntimeException("Message not found"));
+
+        messageRepository.delete(msg);
+    }
+
+    @Override
     public List<Message> getChatHistory(Long userA, Long userB) {
-        // Lấy tin nhắn từ A->B và B->A
         List<Message> ab = messageRepository.findBySenderIdAndReceiverIdOrderByCreatedAt(userA, userB);
         List<Message> ba = messageRepository.findBySenderIdAndReceiverIdOrderByCreatedAt(userB, userA);
 
-        // Gộp 2 danh sách lại
         List<Message> all = new ArrayList<>();
         all.addAll(ab);
         all.addAll(ba);
 
-        // Sắp xếp all theo createdAt
         all.sort((m1, m2) -> m1.getCreatedAt().compareTo(m2.getCreatedAt()));
 
         return all;
@@ -50,22 +55,12 @@ public class MessageServiceImplementation implements MessageService{
 
     @Override
     public Message editMessage(Long messageId, String newContent) {
-        // Tìm message
         Message msg = messageRepository.findById(messageId)
                 .orElseThrow(() -> new RuntimeException("Message not found"));
 
-        // Cập nhật nội dung
         msg.setContent(newContent);
 
         return messageRepository.save(msg);
-    }
-
-    @Override
-    public void deleteMessage(Long messageId) {
-        Message msg = messageRepository.findById(messageId)
-                .orElseThrow(() -> new RuntimeException("Message not found"));
-
-        messageRepository.delete(msg);
     }
 
     @Override

@@ -15,6 +15,7 @@ public class MessageDto {
     private Long receiverId;
     private String content;
     private String messageType; // "TEXT", "IMAGE", "VIDEO", "FILE"
+    private String eventType; // "SENT", "DELETED", "UPDATED"
     private String attachmentUrl;
     private boolean isRead;
     private String createdAt;
