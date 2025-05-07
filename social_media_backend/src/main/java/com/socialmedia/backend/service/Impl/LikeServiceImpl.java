@@ -1,13 +1,17 @@
-package com.socialmedia.backend.service;
+package com.socialmedia.backend.service.Impl;
 
 import com.socialmedia.backend.exception.TwitException;
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.entities.Like;
 import com.socialmedia.backend.entities.Twit;
 import com.socialmedia.backend.entities.User;
-import com.socialmedia.backend.models.reaction.LikeResponse;
+import com.socialmedia.backend.models.response.LikeResponse;
 import com.socialmedia.backend.repository.LikeRepository;
 import com.socialmedia.backend.repository.TwitRepository;
+import com.socialmedia.backend.service.LikeService;
+import com.socialmedia.backend.service.NotificationService;
+import com.socialmedia.backend.service.TwitService;
+import com.socialmedia.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class LikeServiceImplementation implements LikeService {
+public class LikeServiceImpl implements LikeService {
 
     @Autowired
     private LikeRepository likeRepository;

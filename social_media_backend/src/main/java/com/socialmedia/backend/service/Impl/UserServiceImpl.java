@@ -1,11 +1,13 @@
-package com.socialmedia.backend.service;
+package com.socialmedia.backend.service.Impl;
 
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.entities.User;
 import com.socialmedia.backend.mapper.UserDtoMapper;
-import com.socialmedia.backend.models.UserDto;
+import com.socialmedia.backend.models.dto.UserDto;
 import com.socialmedia.backend.repository.UserRepository;
 import com.socialmedia.backend.security.JwtProvider;
+import com.socialmedia.backend.service.NotificationService;
+import com.socialmedia.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImplementation implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;

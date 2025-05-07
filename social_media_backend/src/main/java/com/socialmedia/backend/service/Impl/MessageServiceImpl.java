@@ -1,9 +1,10 @@
-package com.socialmedia.backend.service;
+package com.socialmedia.backend.service.Impl;
 
 import com.socialmedia.backend.entities.Message;
 import com.socialmedia.backend.entities.MessageType;
-import com.socialmedia.backend.models.MessageDto;
+import com.socialmedia.backend.models.dto.MessageDto;
 import com.socialmedia.backend.repository.MessageRepository;
+import com.socialmedia.backend.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MessageServiceImplementation implements MessageService{
+public class MessageServiceImpl implements MessageService {
 
     private final MessageRepository messageRepository;
 

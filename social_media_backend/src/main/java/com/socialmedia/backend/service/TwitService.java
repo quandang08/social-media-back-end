@@ -4,7 +4,7 @@ import com.socialmedia.backend.exception.TwitException;
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.entities.Twit;
 import com.socialmedia.backend.entities.User;
-import com.socialmedia.backend.models.TwitDto;
+import com.socialmedia.backend.models.dto.TwitDto;
 import com.socialmedia.backend.request.TwitReplyRequest;
 
 import java.util.List;

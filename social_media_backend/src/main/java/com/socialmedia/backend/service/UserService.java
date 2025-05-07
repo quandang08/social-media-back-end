@@ -2,7 +2,7 @@ package com.socialmedia.backend.service;
 
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.entities.User;
-import com.socialmedia.backend.models.UserDto;
+import com.socialmedia.backend.models.dto.UserDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

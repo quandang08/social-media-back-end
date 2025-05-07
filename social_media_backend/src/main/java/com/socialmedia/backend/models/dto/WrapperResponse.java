@@ -1,4 +1,4 @@
-package com.socialmedia.backend.models;
+package com.socialmedia.backend.models.dto;
 
 import lombok.Builder;
 import lombok.Data;

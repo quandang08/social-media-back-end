@@ -1,12 +1,13 @@
-package com.socialmedia.backend.service;
+package com.socialmedia.backend.service.Impl;
 
 import com.socialmedia.backend.entities.User;
-import com.socialmedia.backend.models.NotificationDto;
+import com.socialmedia.backend.models.dto.NotificationDto;
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.entities.Notification;
 import com.socialmedia.backend.repository.NotificationRepository;
 import com.socialmedia.backend.mapper.NotificationMapper;
 import com.socialmedia.backend.repository.UserRepository;
+import com.socialmedia.backend.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class NotificationServiceImplementation implements NotificationService {
+public class NotificationServiceImpl implements NotificationService {
 
     private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;

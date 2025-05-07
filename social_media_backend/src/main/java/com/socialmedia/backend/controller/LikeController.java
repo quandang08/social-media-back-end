@@ -1,12 +1,12 @@
 package com.socialmedia.backend.controller;
 
-import com.socialmedia.backend.models.LikeDto;
+import com.socialmedia.backend.models.dto.LikeDto;
 import com.socialmedia.backend.exception.TwitException;
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.mapper.LikeDtoMapper;
 import com.socialmedia.backend.entities.Like;
 import com.socialmedia.backend.entities.User;
-import com.socialmedia.backend.models.WrapperResponse;
+import com.socialmedia.backend.models.dto.WrapperResponse;
 import com.socialmedia.backend.service.LikeService;
 import com.socialmedia.backend.service.NotificationService;
 import com.socialmedia.backend.service.UserService;

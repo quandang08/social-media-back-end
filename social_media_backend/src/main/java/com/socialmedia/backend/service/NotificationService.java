@@ -1,6 +1,6 @@
 package com.socialmedia.backend.service;
 
-import com.socialmedia.backend.models.NotificationDto;
+import com.socialmedia.backend.models.dto.NotificationDto;
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.entities.Notification;
 

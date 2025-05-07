@@ -1,20 +1,23 @@
-package com.socialmedia.backend.service;
+package com.socialmedia.backend.service.Impl;
 
 import com.socialmedia.backend.exception.TwitException;
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.entities.Twit;
 import com.socialmedia.backend.entities.User;
 import com.socialmedia.backend.mapper.TwitDtoMapper;
-import com.socialmedia.backend.models.TwitDto;
+import com.socialmedia.backend.models.dto.TwitDto;
 import com.socialmedia.backend.repository.TwitRepository;
 import com.socialmedia.backend.request.TwitReplyRequest;
+import com.socialmedia.backend.service.NotificationService;
+import com.socialmedia.backend.service.TwitService;
+import com.socialmedia.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 @Service
-public class TwitServiceImplementation implements TwitService {
+public class TwitServiceImpl implements TwitService {
 
     @Autowired
     private TwitRepository twitRepository;

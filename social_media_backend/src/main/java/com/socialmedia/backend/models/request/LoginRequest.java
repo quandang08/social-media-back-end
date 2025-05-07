@@ -1,4 +1,4 @@
-package com.socialmedia.backend.models.authenticate;
+package com.socialmedia.backend.models.request;
 
 import lombok.AccessLevel;
 import lombok.Data;

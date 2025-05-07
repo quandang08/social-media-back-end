@@ -1,7 +1,7 @@
 package com.socialmedia.backend.service;
 
 import com.socialmedia.backend.entities.Message;
-import com.socialmedia.backend.models.MessageDto;
+import com.socialmedia.backend.models.dto.MessageDto;
 
 import java.util.List;
 

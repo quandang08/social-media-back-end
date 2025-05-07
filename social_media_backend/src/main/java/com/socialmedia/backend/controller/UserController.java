@@ -1,6 +1,6 @@
 package com.socialmedia.backend.controller;
 
-import com.socialmedia.backend.models.UserDto;
+import com.socialmedia.backend.models.dto.UserDto;
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.mapper.UserDtoMapper;
 import com.socialmedia.backend.entities.User;

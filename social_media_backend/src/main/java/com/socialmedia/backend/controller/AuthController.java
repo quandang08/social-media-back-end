@@ -3,11 +3,11 @@ package com.socialmedia.backend.controller;
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.entities.User;
 import com.socialmedia.backend.entities.Verification;
-import com.socialmedia.backend.models.authenticate.LoginRequest;
+import com.socialmedia.backend.models.request.LoginRequest;
 import com.socialmedia.backend.repository.UserRepository;
 import com.socialmedia.backend.response.AuthResponse;
 import com.socialmedia.backend.security.JwtProvider;
-import com.socialmedia.backend.service.CustomUserDetailsServiceImplementation;
+import com.socialmedia.backend.service.Impl.CustomUserDetailsServiceImpl;
 import com.socialmedia.backend.service.UserService;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +28,7 @@ public class AuthController {
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
-    private final CustomUserDetailsServiceImplementation customUserDetails;
+    private final CustomUserDetailsServiceImpl customUserDetails;
     @Getter
     private static Map<String, User> sessionData = new HashMap<>();
 
@@ -39,7 +37,7 @@ public class AuthController {
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
             JwtProvider jwtProvider,
-            CustomUserDetailsServiceImplementation customUserDetails, UserService userService) {
+            CustomUserDetailsServiceImpl customUserDetails, UserService userService) {
         this.userRepository = userRepository;
         this.jwtProvider = jwtProvider;
         this.passwordEncoder = passwordEncoder;

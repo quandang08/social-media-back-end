@@ -4,7 +4,7 @@ import com.socialmedia.backend.exception.TwitException;
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.entities.Like;
 import com.socialmedia.backend.entities.User;
-import com.socialmedia.backend.models.reaction.LikeResponse;
+import com.socialmedia.backend.models.response.LikeResponse;
 
 import java.util.List;
 import java.util.Optional;

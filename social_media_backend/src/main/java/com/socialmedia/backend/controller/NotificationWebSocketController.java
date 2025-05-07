@@ -1,6 +1,6 @@
 package com.socialmedia.backend.controller;
 
-import com.socialmedia.backend.models.NotificationDto;
+import com.socialmedia.backend.models.dto.NotificationDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.socialmedia.backend.models.reaction;
+package com.socialmedia.backend.models.response;
 
 import lombok.AccessLevel;
 import lombok.Builder;

@@ -1,6 +1,6 @@
 package com.socialmedia.backend.controller;
 
-import com.socialmedia.backend.models.TwitDto;
+import com.socialmedia.backend.models.dto.TwitDto;
 import com.socialmedia.backend.exception.TwitException;
 import com.socialmedia.backend.exception.UserException;
 import com.socialmedia.backend.mapper.TwitDtoMapper;

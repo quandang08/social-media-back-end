@@ -2,7 +2,7 @@ package com.socialmedia.backend.controller;
 
 import com.socialmedia.backend.entities.Message;
 import com.socialmedia.backend.mapper.MessageMapper;
-import com.socialmedia.backend.models.MessageDto;
+import com.socialmedia.backend.models.dto.MessageDto;
 import com.socialmedia.backend.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
