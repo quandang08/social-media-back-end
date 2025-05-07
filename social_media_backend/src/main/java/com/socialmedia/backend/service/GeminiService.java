@@ -18,12 +18,12 @@ public class GeminiService {
     private RestTemplate restTemplate;
 
     public String getChatCompletion(String prompt) {
-        // 1. Khởi tạo headers
+        //Khởi tạo headers
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("x-goog-api-key", geminiConfig.getKey());
 
-        // 2. Tạo request body
+        //Tạo request body
         Map<String, Object> requestBody = new HashMap<>();
         List<Map<String, Object>> contents = new ArrayList<>();
 
@@ -37,14 +37,14 @@ public class GeminiService {
         contents.add(contentData);
         requestBody.put("contents", contents);
 
-        // 3. Gửi request
+        //Gửi request
         GeminiResponse response = restTemplate.postForObject(
                 geminiConfig.getUrl(),
                 new HttpEntity<>(requestBody, headers),
                 GeminiResponse.class
         );
 
-        // 4. Xử lý response
+        //Xử lý response
         return Optional.ofNullable(response)
                 .map(GeminiResponse::getCandidates)
                 .filter(c -> !c.isEmpty())

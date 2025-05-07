@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface TwitRepository extends JpaRepository<Twit, Long> {
 
-    // Lấy tất cả các Twit gốc (không phải reply), sắp xếp theo thời gian tạo mới nhất
+    // Lấy tất cả các Twit gốc, sắp xếp theo thời gian tạo mới nhất
     List<Twit> findAllByIsTwitTrueOrderByCreatedAtDesc();
 
     // Lấy tất cả Twit của user hoặc Twit mà user đã retwit, sắp xếp theo thời gian tạo mới nhất

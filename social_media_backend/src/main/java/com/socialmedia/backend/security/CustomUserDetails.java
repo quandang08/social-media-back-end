@@ -15,7 +15,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // Chưa có phân quyền, nên để danh sách rỗng
+        return Collections.emptyList();
     }
 
     @Override
@@ -30,22 +30,22 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true; // Chưa xử lý logic khóa tài khoản
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // Chưa xử lý logic khóa tài khoản
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // Chưa xử lý logic hết hạn mật khẩu
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return true; // Mặc định tài khoản luôn kích hoạt
+        return true;
     }
 
     public boolean isLoginWithGoogle() {

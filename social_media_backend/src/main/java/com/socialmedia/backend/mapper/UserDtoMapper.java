@@ -17,7 +17,6 @@ public class UserDtoMapper {
         userDto.setBio(user.getBio());
         userDto.setBirthDate(String.valueOf(user.getBirthDate()));
 
-        // Chỉ lưu ID thay vì Object đầy đủ
         userDto.setFollowers(user.getFollowers().stream().map(User::getId).toList());
         userDto.setFollowing(user.getFollowing().stream().map(User::getId).toList());
 
@@ -26,7 +25,6 @@ public class UserDtoMapper {
         userDto.setVerified(false);
         return userDto;
     }
-
 
     public static List<UserDto> toUserDtos(List<User> followers) {
         List<UserDto> userDtos = new ArrayList<>();

@@ -88,7 +88,6 @@ public class TwitServiceImplementation implements TwitService {
     public Twit createdReply(TwitReplyRequest req, User user) throws TwitException {
         Twit parentTwit = findById(req.getTwitId());
 
-        // Tạo reply mới
         Twit reply = new Twit();
         reply.setContent(req.getContent());
         reply.setCreatedAt(LocalDateTime.now());
@@ -98,36 +97,29 @@ public class TwitServiceImplementation implements TwitService {
         reply.setTwit(false);
         reply.setReplyFor(parentTwit);
 
-        // Lưu reply mới vào DB
         Twit savedReply = twitRepository.save(reply);
 
-        // Cập nhật danh sách reply của bài đăng gốc
         parentTwit.getReplyTwits().add(savedReply);
         twitRepository.save(parentTwit);
 
-        // Trả về reply mới được tạo (đã lưu)
         return savedReply;
     }
 
     @Override
     public TwitDto replyTwitAndNotify(TwitReplyRequest req, String jwt) throws TwitException, UserException {
-        // 1. Lấy user từ JWT thông qua UserService
         User user = userService.findUserProfileByJwt(jwt);
 
-        // 2. Tạo reply mới bằng cách gọi createdReply (đã được định nghĩa ở trên)
         Twit savedReply = createdReply(req, user);
 
-        // 3. Lấy bài đăng gốc mà reply này trả lời
         Twit parentTwit = savedReply.getReplyFor();
         if (parentTwit != null) {
             Long twitOwnerId = parentTwit.getUser().getId();
-            // 4. Nếu người reply khác chủ của bài đăng gốc, gửi thông báo comment
+
             if (!user.getId().equals(twitOwnerId)) {
                 notificationService.handleCommentAction(parentTwit.getId(), twitOwnerId, user.getId(), req.getContent());
             }
         }
 
-        // 5. Chuyển đổi reply (savedReply) sang TwitDto và trả về
         return TwitDtoMapper.toTwitDto(savedReply, user);
     }
 
@@ -141,7 +133,5 @@ public class TwitServiceImplementation implements TwitService {
     public List<Twit> findByLikesContainsUser(User user) {
         return twitRepository.findByLikesUserId(user.getId());
     }
-
-
 
 }

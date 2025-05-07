@@ -9,7 +9,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "likes")
 public class Like {
-    // Getter và Setter thủ công
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

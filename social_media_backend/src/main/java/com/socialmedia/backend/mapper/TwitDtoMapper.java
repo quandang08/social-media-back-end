@@ -20,16 +20,13 @@ public class TwitDtoMapper {
     public static TwitDto toTwitDto(Twit twit, User reqUser) {
         UserDto user = UserDtoMapper.toUserDto(twit.getUser());
 
-        // Kiểm tra xem người dùng hiện tại đã thích hoặc retweet bài viết chưa
         boolean isLiked = TwitUtil.isLikedByReqUser(reqUser, twit);
         boolean isRetwited = TwitUtil.isRetwitedByUser(reqUser, twit);
 
-        // Lấy danh sách ID của những người đã retweet bài đăng này
         List<Long> retwitUserId = twit.getRetwitUser().stream()
                 .map(User::getId)
                 .collect(Collectors.toList());
 
-        // Tạo đối tượng TwitDto và thiết lập các giá trị cần thiết
         TwitDto twitDto = new TwitDto();
         twitDto.setId(twit.getId());
         twitDto.setContent(twit.getContent());
@@ -43,7 +40,7 @@ public class TwitDtoMapper {
         twitDto.setLiked(isLiked);
         twitDto.setRetwit(isRetwited);
         twitDto.setRetwitUserId(retwitUserId);
-        twitDto.setReplyTwits(toTwitDtos(twit.getReplyTwits(), reqUser)); // Chuyển đổi danh sách trả lời
+        twitDto.setReplyTwits(toTwitDtos(twit.getReplyTwits(), reqUser));
 
         return twitDto;
     }
@@ -56,7 +53,7 @@ public class TwitDtoMapper {
      */
     public static List<TwitDto> toTwitDtos(List<Twit> twits, User reqUser) {
         return twits.stream()
-                .map(twit -> toReplyTwitDto(twit, reqUser)) // Ánh xạ từng Twit sang TwitDto
+                .map(twit -> toReplyTwitDto(twit, reqUser))
                 .collect(Collectors.toList());
     }
 
@@ -69,16 +66,13 @@ public class TwitDtoMapper {
     private static TwitDto toReplyTwitDto(Twit twit, User reqUser) {
         UserDto user = UserDtoMapper.toUserDto(twit.getUser());
 
-        // Kiểm tra xem người dùng hiện tại đã thích hoặc retweet bài viết chưa
         boolean isLiked = TwitUtil.isLikedByReqUser(reqUser, twit);
         boolean isRetwited = TwitUtil.isRetwitedByUser(reqUser, twit);
 
-        // Lấy danh sách ID của những người đã retweet bài đăng này
         List<Long> retwitUserId = twit.getRetwitUser().stream()
                 .map(User::getId)
                 .collect(Collectors.toList());
 
-        // Tạo đối tượng TwitDto cho bài trả lời
         TwitDto twitDto = new TwitDto();
         twitDto.setId(twit.getId());
         twitDto.setContent(twit.getContent());

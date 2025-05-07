@@ -37,12 +37,10 @@ public class LikeServiceImplementation implements LikeService {
         Optional<Like> isLikeExist = likeRepository.isLikeExists(user.getId(), twitId);
 
         if (isLikeExist.isPresent()) {
-            // Nếu đã like -> bỏ like
             likeRepository.deleteById(isLikeExist.get().getId());
             return isLikeExist;
         }
 
-        // Nếu chưa like -> tạo like mới
         Twit twit = twitService.findById(twitId);
         Like like = new Like();
         like.setTwit(twit);

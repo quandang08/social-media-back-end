@@ -10,8 +10,6 @@ import java.time.LocalDateTime;
 @Setter
 @Data
 public class TwitReplyRequest {
-
-    // Getter & Setter thủ công
     private String content;
     private Long twitId;
     private LocalDateTime createdAt;

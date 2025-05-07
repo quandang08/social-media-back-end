@@ -29,7 +29,7 @@ public class JwtTokenValidation extends OncePerRequestFilter {
         String jwt = request.getHeader(JwtConstant.JWT_HEADER);
 
         if (jwt != null && jwt.startsWith("Bearer ")) {
-            jwt = jwt.substring(7); // Bỏ tiền tố "Bearer "
+            jwt = jwt.substring(7);
 
             try {
                 SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(JwtConstant.SECRET_KEY));
@@ -45,7 +45,6 @@ public class JwtTokenValidation extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception e) {
-                // Trả về lỗi HTTP 401 nếu JWT không hợp lệ hoặc đã hết hạn
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
@@ -55,7 +54,6 @@ public class JwtTokenValidation extends OncePerRequestFilter {
             }
         }
 
-        // Tiếp tục thực hiện các filter khác nếu không có lỗi
         filterChain.doFilter(request, response);
     }
 }

@@ -122,34 +122,27 @@ public class UserServiceImplementation implements UserService{
 
     @Override
     public User followUserAndNotify(Long targetUserId, String jwt) throws UserException {
-        // Lấy user thực hiện follow (actor)
         User actorUser = findUserProfileByJwt(jwt);
 
-        //Lấy user được follow (targetUser)
         User targetUser = findUserById(targetUserId);
 
         // Kiểm tra follow/unfollow
         boolean isFollowing = actorUser.getFollowing().contains(targetUser);
         if (isFollowing) {
-            // Đang follow => unfollow
             actorUser.getFollowing().remove(targetUser);
             targetUser.getFollowers().remove(actorUser);
         } else {
-            // Chưa follow => follow
             actorUser.getFollowing().add(targetUser);
             targetUser.getFollowers().add(actorUser);
 
-            // Gửi notification
             if (!actorUser.getId().equals(targetUser.getId())) {
                 notificationService.handleFollowAction(targetUser.getId(), actorUser.getId());
             }
         }
 
-        //Lưu DB
         userRepository.save(actorUser);
         userRepository.save(targetUser);
 
-        //Trả về user được follow (targetUser)
         return targetUser;
     }
 }

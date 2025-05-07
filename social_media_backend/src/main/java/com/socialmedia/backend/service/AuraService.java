@@ -17,11 +17,6 @@ public class AuraService {
     @Autowired
     public AuraChatMessageRepository auraChatMessageRepository;
 
-    /*public AuraService(GeminiService geminiService, AuraChatMessageRepository auraChatMessageRepository) {
-        this.geminiService = geminiService;
-        this.auraChatMessageRepository = auraChatMessageRepository;
-    }*/
-
     public AuraResponse processChat(AuraRequest request) {
         String aiReply = geminiService.getChatCompletion(request.getContent());
 

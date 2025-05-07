@@ -31,7 +31,7 @@ public class NotificationController {
     ) throws UserException {
 
         User actor = userService.findUserProfileByJwt(jwt);
-        // Tạo notification entity từ DTO
+
         Notification notification = new Notification();
         notification.setUserId(notificationDto.getUserId());
         notification.setActorId(actor.getId());
@@ -40,7 +40,6 @@ public class NotificationController {
         notification.setRead(false);
         notification.setCreatedAt(LocalDateTime.now());
 
-        // Lưu vào DB
         NotificationDto createdNotification = notificationService.createAndSaveNotification(notification);
         return ResponseEntity.ok(createdNotification);
     }
@@ -50,7 +49,7 @@ public class NotificationController {
             @RequestHeader("Authorization") String jwt
     ) throws UserException {
         User user = userService.findUserProfileByJwt(jwt);
-        Long userId = user.getId();  // Lấy ID từ user
+        Long userId = user.getId();
         List<NotificationDto> notifications = notificationService.getNotificationsForUser(userId);
 
         return ResponseEntity.ok(notifications);

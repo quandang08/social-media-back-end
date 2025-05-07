@@ -28,7 +28,6 @@ public class CustomUserDetailsServiceImplementation implements UserDetailsServic
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-            //return new CustomUserDetails(user);
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 

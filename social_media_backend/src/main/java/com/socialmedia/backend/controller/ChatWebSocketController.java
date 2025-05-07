@@ -45,7 +45,4 @@ public class ChatWebSocketController {
         messagingTemplate.convertAndSend("/queue/chat." + messageDto.getSenderId(), messageDto);
     }
 
-    // POST - mark daxem = 1 (messsagye)
-    //
-
 }

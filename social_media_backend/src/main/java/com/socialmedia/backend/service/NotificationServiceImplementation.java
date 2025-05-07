@@ -38,7 +38,6 @@ public class NotificationServiceImplementation implements NotificationService {
                 .collect(Collectors.toList());
     }
 
-
     @Override
     public NotificationDto markAsRead(Long notificationId, Long userId) throws UserException {
         Notification noti = notificationRepository.findById(notificationId)

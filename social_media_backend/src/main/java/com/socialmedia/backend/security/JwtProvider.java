@@ -11,7 +11,7 @@ import java.util.Date;
 @Component
 public class JwtProvider {
 
-    private static final long EXPIRATION_TIME = 86400000; // 24h
+    private static final long EXPIRATION_TIME = 86400000;
     private static final SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(JwtConstant.SECRET_KEY));
 
     /**
@@ -20,10 +20,10 @@ public class JwtProvider {
     public String generateJwt(String email) {
         return Jwts.builder()
                 .setSubject(email) // Đặt email làm subject của token
-                .setIssuedAt(new Date()) // Thời gian phát hành
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) // Hết hạn sau 24h
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(key, SignatureAlgorithm.HS256) // Ký với thuật toán HS256
-                .compact(); // Xuất JWT thành chuỗi
+                .compact();
     }
 
     /**
@@ -41,7 +41,7 @@ public class JwtProvider {
                     .parseClaimsJws(jwt)
                     .getBody();
 
-            return claims.getSubject(); // Lấy email từ subject
+            return claims.getSubject();
         } catch (ExpiredJwtException e) {
             throw new RuntimeException("Token đã hết hạn");
         } catch (JwtException e) {
@@ -61,7 +61,7 @@ public class JwtProvider {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
             return true;
         } catch (JwtException e) {
-            return false; // Token không hợp lệ hoặc hết hạn
+            return false;
         }
     }
 }

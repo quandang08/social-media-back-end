@@ -53,7 +53,7 @@ public class AuthController {
     /* todo: refactor */
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws UserException {
-        System.out.println("Received Signup Request: " + user); // Debug đầu vào
+        System.out.println("Received Signup Request: " + user);
 
         String email = user.getEmail();
         if (email == null || email.isBlank()) {

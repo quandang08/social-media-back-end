@@ -5,31 +5,10 @@ import com.socialmedia.backend.models.TwitDto;
 import com.socialmedia.backend.models.UserDto;
 import com.socialmedia.backend.entities.Like;
 import com.socialmedia.backend.entities.User;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class LikeDtoMapper {
-
-    public static LikeDto toLikeDto(Optional<Like> like, User reqUser) {
-        if (like.isEmpty()) {
-            return null; // hoặc throw new IllegalArgumentException("Like not found");
-        }
-
-        Like likeObj = like.get(); // Giờ đây đã an toàn để gọi get()
-
-        UserDto user = UserDtoMapper.toUserDto(likeObj.getUser());
-        TwitDto twit = TwitDtoMapper.toTwitDto(likeObj.getTwit(), reqUser);
-
-        LikeDto likeDto = new LikeDto();
-        likeDto.setId(likeObj.getId());
-        likeDto.setTwit(twit);
-        likeDto.setUser(user);
-
-        return likeDto;
-    }
-
     public static List<LikeDto> toLikeDtos(List<Like> likes, User reqUser) {
         List<LikeDto> likeDtos = new ArrayList<>();
 
